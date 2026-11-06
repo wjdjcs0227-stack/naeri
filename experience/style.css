@@ -21,3 +21,6 @@ main{margin-top:5vh}
 #toast{top:175px}
 @media(max-width:760px){header{padding:16px 5% 8px}header .conditions{justify-content:space-between;gap:8px;flex-wrap:wrap;padding-top:12px}header .sky-caption{width:100%;display:flex;justify-content:space-between;align-items:center;margin:0 0 4px}header .sky-title{font-size:11px;margin:0}header .conditions small{font-size:8px}header .conditions label{gap:5px;font-size:9px}header .conditions select{font-size:10px;padding:7px 8px}main{margin-top:5vh}#whisper-field{top:195px}#toast{top:190px}}
 @media(max-height:650px){main{margin-top:1vh}h1{margin:10px 0}.intro{margin-bottom:8px!important}}
+
+.presence{display:inline-flex;align-items:center;color:#c9c7be;font-size:10px;white-space:nowrap;letter-spacing:.2px}.presence .live{flex-shrink:0;background:#b4c8a4;box-shadow:0 0 8px #b4c8a455}
+@media(max-width:760px){header .presence{order:3;width:100%;font-size:9px;margin-top:3px}header .conditions{order:4}main{margin-top:3vh}#whisper-field{top:210px}#toast{top:210px}}

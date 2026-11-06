@@ -1,3 +1,4 @@
+import { handlePresence } from '../lib/presence-api.mjs';
 import { renderRooftop } from '../lib/rooftop-page';
 import { readWhispers, writeWhisper } from '../lib/whispers-api';
 import handler from "vinext/server/fetch-handler";
@@ -8,6 +9,7 @@ const worker = {
   async fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext<{ CONNECTORS?: ConnectorBinding }>) {
     const path = new URL(request.url).pathname;
     if (path === '/' && request.method === 'GET') return renderRooftop();
+    if (path === '/api/presence') return handlePresence(request, env.DB);
     if (path === '/api/whispers') {
       if (request.method === 'GET') return readWhispers(request);
       if (request.method === 'POST') return writeWhisper(request);
