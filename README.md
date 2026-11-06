@@ -30,6 +30,6 @@ Messages are checked on the server before insertion, and filtered on reads too. 
 
 ## Weather music and plain text
 
-The opt-in Web Audio soundtrack uses original note patterns: clear-night soft sine keys, rain with filtered noise and slower keys, and snow with bell partials. Weather changes crossfade buses and clean up retired nodes. No external audio assets or autoplay are used. Messages show only escaped text, with no sender label or bubble background.
+The opt-in native HTML audio soundtrack uses recordings rendered from original note patterns: clear-night soft sine keys, rain with filtered noise and slower keys, and snow with bell partials. Weather changes select the corresponding local AAC track on the same audio element. Playback starts directly from a user tap; failed or interrupted playback shows a retry button. No third-party recordings or autoplay are used. Messages show only escaped text, with no sender label or bubble background.
 
 The rooftop foreground is offset from the measured dock top so the sitter, table and bench stay visible. A warm fabric parasol opens while seated in rain/snow; snow coats its rim, and precipitation is masked underneath. A ResizeObserver recomputes clearance when the dock layout changes.

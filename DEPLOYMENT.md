@@ -25,3 +25,7 @@ Vercel의 api/whispers.js는 기존 공개 Sites 대화 API로 서버에서 중�
 검사: node tests/presence.test.mjs
 
 채팅 입력창에 포커스하거나 한마디가 표시되면 안내가 자동으로 숨겨집니다. 읽는 동안 입력/말풍선 조작은 안내를 다시 표시하지 않습니다. 상단 안내 보기 버튼으로 직접 다시 열 수 있습니다. 전송 간격은 클라이언트와 서버 모두 2초이며, 요청 응답 시간은 별도입니다.
+
+## 모바일 BGM
+Vercel은 public/audio/의 자체 제작 AAC 트랙 3개를 /audio/에 배포합니다. 버튼 탭에서 HTMLAudioElement.play()를 즉시 호출하며 성공 여부에 맞춰 버튼을 갱신합니다. 시작은 사용자 탭이 필요하고, 재생이 중단되면 다시 켜기를 제공합니다. 지원되는 브라우저에서는 Audio Session playback을 요청합니다. 카카오톡/인스타그램 자체 오디오 정책과 기기 미디어 음량까지 사이트가 제어할 수는 없습니다.
+트랙 재생성: macOS에서 python3 scripts/generate-bgm.py (afconvert 필요). 배포에서는 커밋된 AAC 파일을 사용하므로 오디오 생성 도구가 필요하지 않습니다.
