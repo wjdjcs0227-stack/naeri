@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { site } from '../config/site.mjs';
 import { seoArtifacts } from '../scripts/seo.mjs';
 const source = readFileSync('experience/index.html', 'utf8');
 const result = seoArtifacts(source, {});
@@ -8,7 +9,9 @@ assert.equal((result.html.match(/<title>/g) || []).length, 1);
 assert.equal((result.html.match(/name="description"/g) || []).length, 1);
 assert.match(result.html, /rel="canonical" href="https:\/\/naeri-ivory.vercel.app\/"/);
 assert.match(result.html, /name="viewport" content="width=device-width,initial-scale=1"/);
-assert.doesNotMatch(result.html, /name="(?:google|naver)-site-verification"/);
+for (const provider of ['google', 'naver']) {
+  assert.equal(result.html.includes(`name="${provider}-site-verification"`), Boolean(site.verification[provider]));
+}
 assert.match(result.robots, /Allow: \/\n/);
 assert.match(result.robots, /Sitemap: https:\/\/naeri-ivory.vercel.app\/sitemap.xml/);
 const moved = seoArtifacts(source, { SITE_URL: 'https://rooftop.example', GOOGLE_SITE_VERIFICATION:'google-token', NAVER_SITE_VERIFICATION:'a"&<b' });
