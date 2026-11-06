@@ -43,8 +43,8 @@ export async function writeWhisper(request: Request) {
   if (!db) return json({ error: '잠시 연결을 준비하고 있어요.' }, 503);
   const now = Date.now();
   // One atomic insert prevents concurrent requests from bypassing the cooldown.
-  const message = await db.prepare('INSERT INTO whispers (room, body, author, created_at) SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM whispers WHERE author = ? AND created_at > ?) RETURNING id, body').bind(data.room, body, author, now, author, now - 5000).first();
-  if (!message) return json({ error: '한마디 사이에 5초만 쉬어주세요.' }, 429);
+  const message = await db.prepare('INSERT INTO whispers (room, body, author, created_at) SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM whispers WHERE author = ? AND created_at > ?) RETURNING id, body').bind(data.room, body, author, now, author, now - 2000).first();
+  if (!message) return json({ error: '한마디 사이에 2초만 쉬어주세요.' }, 429);
   await db.prepare('DELETE FROM whispers WHERE created_at < ?').bind(now - 60000).run();
   return json({ message }, 201);
  } catch { return json({ error: '전송하지 못했어요. 잠시 후 다시 시도해주세요.' }, 503); }

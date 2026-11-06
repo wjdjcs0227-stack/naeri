@@ -10,7 +10,42 @@ button.onclick=async()=>{if(busy)return;busy=true;try{if(!context){context=new A
 $('weather').addEventListener('change',()=>{if(enabled&&context)transition()});
 })();
 
-// Quiet arrival: guidance returns on touch or keyboard, then yields to the view.
-(()=>{let deadline=Date.now()+30000;const toggle=$('toggle-guidance');function reveal(){document.body.classList.remove('guidance-hidden');document.querySelectorAll('.ambience-controls').forEach(el=>el.inert=false);toggle.textContent='안내 숨기기';toggle.setAttribute('aria-pressed','false');deadline=Date.now()+30000;$('fade-count').textContent='30'}function hide(){document.body.classList.add('guidance-hidden');document.querySelectorAll('.ambience-controls').forEach(el=>el.inert=true);toggle.textContent='안내 보기';toggle.setAttribute('aria-pressed','true')}toggle.onclick=()=>document.body.classList.contains('guidance-hidden')?reveal():hide();document.addEventListener('pointerdown',e=>{if(!toggle.contains(e.target))reveal()});document.addEventListener('keydown',e=>{if(e.target!==toggle)reveal()});setInterval(()=>{if(document.activeElement?.matches('input,select,textarea')||document.querySelector('dialog[open]')){deadline=Date.now()+30000;return}const remaining=Math.max(0,Math.ceil((deadline-Date.now())/1000));$('fade-count').textContent=remaining;if(!remaining&&!document.body.classList.contains('guidance-hidden'))hide()},1000);
+// Guidance yields to typing and incoming messages, without keyboard flicker.
+(()=>{
+let deadline=Date.now()+30000, readingUntil=0;
+const toggle=$('toggle-guidance');
+function reveal(){
+ document.body.classList.remove('guidance-hidden','chat-reading');
+ document.querySelectorAll('.ambience-controls').forEach(el=>el.inert=false);
+ toggle.textContent='안내 숨기기';toggle.setAttribute('aria-pressed','false');
+ deadline=Date.now()+30000;$('fade-count').textContent='30';
+}
+function hide(){
+ document.body.classList.add('guidance-hidden');
+ document.querySelectorAll('.ambience-controls').forEach(el=>el.inert=true);
+ toggle.textContent='안내 보기';toggle.setAttribute('aria-pressed','true');
+}
+function chatView(duration=0){
+ readingUntil=Math.max(readingUntil,Date.now()+duration);
+ document.body.classList.add('chat-reading');hide();
+}
+const isChat=target=>target?.closest?.('.chat-dock,#whisper-field');
+function interact(e){
+ if(toggle.contains(e.target))return;
+ if(isChat(e.target)){chatView();return;}
+ if(Date.now()<readingUntil)return;
+ reveal();
+}
+toggle.onclick=()=>document.body.classList.contains('guidance-hidden')?reveal():hide();
+document.addEventListener('pointerdown',interact);
+document.addEventListener('keydown',interact);
+document.addEventListener('focusin',e=>{if(isChat(e.target))chatView()});
+document.addEventListener('rooftop-chat-reading',e=>chatView(e.detail?.duration||0));
+setInterval(()=>{
+ if(document.activeElement?.matches('input,select,textarea')||document.querySelector('dialog[open]')){deadline=Date.now()+30000;return}
+ const remaining=Math.max(0,Math.ceil((deadline-Date.now())/1000));
+ $('fade-count').textContent=remaining;
+ if(!remaining&&!document.body.classList.contains('guidance-hidden'))hide();
+},1000);
 for(const key of ['weather','time','moon']){try{const val=localStorage.getItem('rooftop-'+key);if(val&&[...$(key).options].some(o=>o.value===val)){$(key).value=val;rooftop[key==='time'?'mode':key]=val}}catch{}$(key).addEventListener('change',()=>{try{localStorage.setItem('rooftop-'+key,$(key).value)}catch{}})}
 })();

@@ -10,9 +10,9 @@ A quiet Korean rooftop experience with a procedural hillside neighborhood, three
 - `worker/index.ts`: serves the HTML and relay directly, preserving the starter fallback and Sites build integration.
 - `db/schema.ts` and `drizzle/`: database schema and migrations.
 
-The Site is public and posting requires no login. Throttling uses a hash of the edge-provided network address; if absent it uses the signed-in ID or a shared anonymous bucket. Raw addresses are not stored. Visitors sharing a network may share the 5-second limit.
+The Site is public and posting requires no login. Throttling uses a hash of the edge-provided network address; if absent it uses the signed-in ID or a shared anonymous bucket. Raw addresses are not stored. Visitors sharing a network may share the 2-second limit.
 
-Rooms: all / work / study. Messages are capped at 60 UTF-16 code units, one per signed-in user every 5 seconds. Polling every 1.5 seconds returns only the last 6 seconds of messages, with ID cursors. The screen shows at most three nonoverlapping bubbles; short messages last 2.8 seconds, long messages 4.5 seconds, slow-reading mode 8 seconds. Excess arrivals are quietly omitted. The UI has no history. Records older than 60 seconds are deleted on the next API read/write; this is not a guarantee of physical deletion at exactly 60 seconds or deletion from provider backups.
+Rooms: all / work / study. Messages are capped at 60 UTF-16 code units, one per signed-in user every 2 seconds. Polling every 1.5 seconds returns only the last 6 seconds of messages, with ID cursors. The screen shows at most three nonoverlapping bubbles; short messages last 2.8 seconds, long messages 4.5 seconds, slow-reading mode 8 seconds. Excess arrivals are quietly omitted. The UI has no history. Records older than 60 seconds are deleted on the next API read/write; this is not a guarantee of physical deletion at exactly 60 seconds or deletion from provider backups.
 
 ## Validation
 

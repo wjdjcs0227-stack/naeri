@@ -24,3 +24,8 @@ main{margin-top:5vh}
 
 .presence{display:inline-flex;align-items:center;color:#c9c7be;font-size:10px;white-space:nowrap;letter-spacing:.2px}.presence .live{flex-shrink:0;background:#b4c8a4;box-shadow:0 0 8px #b4c8a455}
 @media(max-width:760px){header .presence{order:3;width:100%;font-size:9px;margin-top:3px}header .conditions{order:4}main{margin-top:3vh}#whisper-field{top:210px}#toast{top:210px}}
+
+/* Chat gets the open sky while guidance stays available through its toggle. */
+.chat-reading.guidance-hidden .ambience-controls{transition:opacity .15s,filter .15s}
+.chat-reading #whisper-field{top:95px}
+@media(max-width:760px){.chat-reading #whisper-field{top:110px}}
