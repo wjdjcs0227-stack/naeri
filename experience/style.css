@@ -29,3 +29,14 @@ main{margin-top:5vh}
 .chat-reading.guidance-hidden .ambience-controls{transition:opacity .15s,filter .15s}
 .chat-reading #whisper-field{top:95px}
 @media(max-width:760px){.chat-reading #whisper-field{top:110px}}
+
+/* Native click works for touch, mouse and keyboard without double touch handlers. */
+button,select{touch-action:manipulation}
+#sound{min-height:44px;min-width:88px;white-space:nowrap}
+@media(pointer:coarse){
+  #toggle-guidance,nav button,.close,#sit,#stand,header .conditions select{min-height:44px}
+  .close{min-width:44px}
+  #send-whisper{width:44px;height:44px}
+  .dock-meta label{min-height:32px}
+  #whisper-input{font-size:16px}
+}
